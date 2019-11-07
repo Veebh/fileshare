@@ -47,7 +47,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri":"/home/chandramouli/createsqldatabasevialinked.json"
+                    "uri":"https://github.com/Veebh/fileshare/blob/master/createsqldatabasevialinked.json"
                 }
             }
         },      
