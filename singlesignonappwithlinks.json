@@ -1,0 +1,408 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "service_MS3072APIManagementService_name": {
+            "defaultValue": "MS3072APIManagementServicetemplate",
+            "type": "String"
+        },
+        "vaults_demoappkv_name": {
+            "defaultValue": "demoappkvtemplate",
+            "type": "String"
+        },
+         "databaseAccounts_globalsqlcache_name": {
+            "defaultValue": "globalsqlcachetemplate",
+            "type": "String"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "serverfarms_name": {
+                "defaultValue": "serverfarmsthroughtemplate",
+                "type": "String"
+        },
+        "serverfarms_serverfarms_name_externalid": {
+                "defaultValue": "[concat('/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/',resourceGroup().id,
+                '/providers/Microsoft.Web/serverfarms/',parameters('serverfarms_name'))]",
+            "type": "String"
+        }
+    },
+     "variables": {
+      "appService0":"MicroServiceTestServicesTemplate",
+      "appService1":"StudentDataTestApiTemplate",
+      "appService2":"StudentCourseAppTemplate",
+      "app_insights_name0":"MicroServiceTestServicesAppInsightsTemplate",
+      "app_insights_name1":"StudentDataTestApiAppInsightsTemplate",
+      "app_insights_name2":"StudentCourseAppAppInsightsTemplate"
+    },
+    "resources": [  
+        {
+            "name": "linkedTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri":"/home/chandramouli/createsqldatabasevialinked.json"
+                }
+            }
+        },      
+        {
+        "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2016-10-01",
+            "name": "[parameters('vaults_demoappkv_name')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "sku": {
+                    "family": "A",
+                    "name": "Standard"
+                },
+                "tenantId": "8d09f28d-2b54-4761-98f1-de38762cd939",
+                "accessPolicies": [
+                    {
+                        "tenantId": "8d09f28d-2b54-4761-98f1-de38762cd939",
+                        "objectId": "1a013d7a-3b6f-4a76-9ad3-fd91821430db",
+                        "permissions": {
+                            "keys": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore",
+                                "Decrypt",
+                                "Encrypt",
+                                "UnwrapKey",
+                                "WrapKey",
+                                "Verify",
+                                "Sign",
+                                "Purge"
+                            ],
+                            "secrets": [
+                                "Get",
+                                "List",
+                                "Set",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "certificates": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore",
+                                "ManageContacts",
+                                "ManageIssuers",
+                                "GetIssuers",
+                                "ListIssuers",
+                                "SetIssuers",
+                                "DeleteIssuers",
+                                "Purge"
+                            ]
+                        }
+                    },
+                    {
+                        "tenantId": "8d09f28d-2b54-4761-98f1-de38762cd939",
+                        "objectId": "de225cff-f672-4ba3-8dd2-73dac01d6456",
+                        "permissions": {
+                            "keys": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "secrets": [
+                                "Get",
+                                "List",
+                                "Set",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "certificates": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore",
+                                "ManageContacts",
+                                "ManageIssuers",
+                                "GetIssuers",
+                                "ListIssuers",
+                                "SetIssuers",
+                                "DeleteIssuers"
+                            ]
+                        }
+                    },
+                    {
+                        "tenantId": "8d09f28d-2b54-4761-98f1-de38762cd939",
+                        "objectId": "4895ad8d-822c-4062-b12c-eb6ef8aa8ca6",
+                        "permissions": {
+                            "keys": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "secrets": [
+                                "Get",
+                                "List",
+                                "Set",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "certificates": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore",
+                                "ManageContacts",
+                                "ManageIssuers",
+                                "GetIssuers",
+                                "ListIssuers",
+                                "SetIssuers",
+                                "DeleteIssuers"
+                            ]
+                        }
+                    },
+                    {
+                        "tenantId": "8d09f28d-2b54-4761-98f1-de38762cd939",
+                        "objectId": "6553072c-1758-418a-9d37-d378c8faa3ed",
+                        "permissions": {
+                            "keys": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "secrets": [
+                                "Get",
+                                "List",
+                                "Set",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "certificates": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore",
+                                "ManageContacts",
+                                "ManageIssuers",
+                                "GetIssuers",
+                                "ListIssuers",
+                                "SetIssuers",
+                                "DeleteIssuers"
+                            ]
+                        }
+                    }
+                ],
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service",
+            "apiVersion": "2019-01-01",
+            "name": "[parameters('service_MS3072APIManagementService_name')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Developer",
+                "capacity": 1
+            },
+            "identity": {
+                "principalId": "",
+                "tenantId": "",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "publisherEmail": "vcha@lab.morganstanley.com",
+                "publisherName": "morganstanley",
+                "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+                "hostnameConfigurations": [
+                    {
+                        "type": "Proxy",
+                        "hostName": "ms3072apimanagementservicetemplate.azure-api.net",
+                        "negotiateClientCertificate": false,
+                        "defaultSslBinding": true
+                    }
+                ],
+                "customProperties": {
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "False"
+                },
+                "virtualNetworkType": "None"
+            },
+            "dependsOn":[
+                "[resourceId('Microsoft.KeyVault/vaults',parameters('vaults_demoappkv_name'))]"                
+            ]
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "apiVersion": "2019-08-01",
+            "name": "[parameters('databaseAccounts_globalsqlcache_name')]",
+            "location": "[parameters('location')]",
+            "tags": {
+                "defaultExperience": "Core (SQL)"
+            },
+            "kind": "GlobalDocumentDB",
+            "properties": {
+                "enableAutomaticFailover": false,
+                "enableMultipleWriteLocations": true,
+                "isVirtualNetworkFilterEnabled": false,
+                "virtualNetworkRules": [],
+                "databaseAccountOfferType": "Standard",
+                "consistencyPolicy": {
+                    "defaultConsistencyLevel": "Session",
+                    "maxIntervalInSeconds": 5,
+                    "maxStalenessPrefix": 100
+                },
+                "locations": [
+                    {
+                        "locationName": "East US",
+                        "provisioningState": "Succeeded",
+                        "failoverPriority": 0,
+                        "isZoneRedundant": false
+                    },
+                    {
+                        "locationName": "West US",
+                        "provisioningState": "Succeeded",
+                        "failoverPriority": 1,
+                        "isZoneRedundant": false
+                    }
+                ],
+                "capabilities": []
+            },
+             "dependsOn":[
+                "[resourceId('Microsoft.KeyVault/vaults',parameters('vaults_demoappkv_name'))]"                
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-08-01",
+            "name": "[variables(concat('appService',copyIndex()))]",
+            "location": "[parameters('location')]",
+            "kind": "app",
+            "identity": {
+                "principalId": "",
+                "tenantId": "",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "enabled": true,               
+                "serverFarmId": "[parameters('serverfarms_serverfarms_name_externalid')]",
+                "reserved": false,
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false
+            },
+            "dependsOn":[
+               "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]",
+               "[resourceId('microsoft.insights/components', variables('app_insights_name0'))]",
+               "[resourceId('microsoft.insights/components', variables('app_insights_name1'))]",
+               "[resourceId('microsoft.insights/components', variables('app_insights_name2'))]"
+            ],
+            "copy":{
+                "name":"storageCopy",
+                "count":3
+            }
+        },
+         {
+            "type": "microsoft.insights/components",
+            "apiVersion": "2015-05-01",
+            "name": "[variables(concat('app_insights_name',copyIndex()))]",
+            "location": "[parameters('location')]",
+            "kind": "web",
+            "properties": {
+                "Application_Type": "web",
+                "Request_Source": "IbizaWebAppExtensionCreate"
+            },
+            "copy":{
+                "name":"storageCopy",
+                "count":3
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "name": "[parameters('serverfarms_name')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            },
+            "kind": "app",
+            "properties": {
+                "name": "[parameters('serverfarms_name')]",
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            }
+        }
+    ]
+}
+
+//New-AzResourceGroup -Name myResourceGroupDev -Location "East US"
+//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev -TemplateFile "/home/chandramouli/singlesignonappwithlinks.json"  -TemplateParameterFile "/home/chandramouli/singlesignonapp.parameters.dev.json"

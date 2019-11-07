@@ -1,0 +1,58 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {        
+        "servers_spocdatabaseserver_name": {
+            "defaultValue": "spocdatabaseservertemplate",
+            "type": "String"
+        },
+        "adminPassword": {
+            "defaultValue": "",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2015-05-01-preview",
+            "name": "[parameters('servers_spocdatabaseserver_name')]",
+            "location": "eastus",
+            "kind": "v12.0",
+            "properties": {
+                "administratorLogin": "vcha",
+                "administratorLoginPassword": "[parameters('adminPassword')]",
+                "version": "12.0"
+            }
+        }  ,
+        {
+            "type": "Microsoft.Sql/servers/databases",
+            "apiVersion": "2017-10-01-preview",
+            "name": "[concat(parameters('servers_spocdatabaseserver_name'), '/spocdatabasetemplate')]",
+            "location": "eastus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_spocdatabaseserver_name'))]"
+            ],
+            "sku": {
+                "name": "Basic",
+                "tier": "Basic",
+                "capacity": 5
+            },
+            "kind": "v12.0,user",
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "maxSizeBytes": 2147483648,
+                "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+                "zoneRedundant": false,
+                "readScale": "Disabled",
+                "readReplicaCount": 0
+            }
+        } 
+    ]
+}
+
+//  Remove-AzResourceGroup -Name mySqlResourceGroupDev
+
+// New-AzResourceGroup -Name mySqlResourceGroupDev -Location "East US"
+
+// New-AzResourceGroupDeployment -ResourceGroupName mySqlResourceGroupDev -TemplateFile "/home/chandramouli/createsqldatabase.json"

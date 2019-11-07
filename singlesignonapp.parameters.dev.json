@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminPassword": {
+            "reference": {
+                "keyVault": {
+                "id": "/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/dotnetcore-demo_app_resourcegroup/providers/Microsoft.KeyVault/vaults/demoappkv"
+                },
+                "secretName": "templatePassword"
+            }
+        }
+    }
+}
+  
+//New-AzResourceGroupDeployment -Name "adnewstorage" -ResourceGroupName "myResourceGroup" -TemplateFile "/home/chandramouli/Addtags.json" -storagePrefix "strg" 
+  
+//$templateFile = "/home/chandramouli/Addtags.json"
+//$parameterFile="/home/chandramouli/Useparameterfiles.parameters.dev.json"
+//New-AzResourceGroup -Name myResourceGroupDev -Location "East US"
+//New-AzResourceGroupDeployment -Name devenvironment -ResourceGroupName myResourceGroupDev -TemplateFile $templateFile -TemplateParameterFile $parameterFile 

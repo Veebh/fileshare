@@ -1,0 +1,31 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storagePrefix": {
+            "value": "contosodata"
+        },
+        "storageSKU": {
+            "value": "Standard_GRS"
+        },
+        "serverfarms_useexportedtemplate_name": {
+            "value": "contosoplan"
+        },
+        "webAppName": {
+            "value": "contosowebappmyResourceGroupProd"
+        },
+        "resourceTags": {
+            "value": {
+                "Environment": "Production",
+                "Project": "Tutorial"
+            }
+        }
+    }
+}
+  
+//New-AzResourceGroupDeployment -Name "adnewstorage" -ResourceGroupName "myResourceGroup" -TemplateFile "/home/chandramouli/Addtags.json" -storagePrefix "strg" 
+  
+  //$templateFile = "/home/chandramouli/Addtags.json"
+//$parameterFile="/home/chandramouli/Useparameterfiles.parameters.prod.json"
+//New-AzResourceGroup -Name myResourceGroupProd -Location "East US"
+//New-AzResourceGroupDeployment -Name devenvironment -ResourceGroupName myResourceGroupProd  -TemplateFile $templateFile -TemplateParameterFile $parameterFile 

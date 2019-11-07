@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters":{
+        "storageName":{
+            "type":"string",
+            "maxLength":24,
+            "minLength":4
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-04-01",
+            "name": "[uniqueString(resourceGroup().id, parameters('storageName'))]",
+            "location": "eastus",
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "supportsHttpsTrafficOnly": true
+            }
+        }
+    ]
+}
+  
+//New-AzResourceGroupDeployment -Name "adnewstorage" -ResourceGroupName "myResourceGroup" -TemplateFile "/home/chandramouli/addaresourceaddparams.json" -storageName "paramstorage"
+  
+  

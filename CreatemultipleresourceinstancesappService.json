@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {    
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    },
+    "serverfarms_name": {
+            "defaultValue": "serverfarmsthroughtemplate",
+            "type": "String"
+    },
+    "serverfarms_serverfarms_name_externalid": {
+            "defaultValue": "[concat('/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/',resourceGroup().id,
+            '/providers/Microsoft.Web/serverfarms/',parameters('serverfarms_name'))]",
+            "type": "String"
+        }
+  },
+  "variables": {
+      "appService0":"MicroServiceTestServicesTemplate",
+      "appService1":"StudentDataTestApiTemplate",
+      "appService2":"StudentCourseAppTemplate"
+  },
+  "resources": [    
+    {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-08-01",
+            "name": "[variables(concat('appService',copyIndex()))]",
+            "location": "[parameters('location')]",
+            "kind": "app",
+            "identity": {
+                "principalId": "",
+                "tenantId": "",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "enabled": true,               
+                "serverFarmId": "[parameters('serverfarms_serverfarms_name_externalid')]",
+                "reserved": false,
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false
+            },
+            "dependsOn":[
+               "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"
+            ],
+            "copy":{
+                "name":"storageCopy",
+                "count":3
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "name": "[parameters('serverfarms_name')]",
+            "location": "East US",
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            },
+            "kind": "app",
+            "properties": {
+                "name": "[parameters('serverfarms_name')]",
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            }
+        }
+  ],
+  "outputs": {
+   
+  }
+}
+
+// New-AzResourceGroup -Name myResourceGroupDev -Location "East US"
+// New-AzResourceGroupDeployment -ResourceGroupName myResourceGroupDev -TemplateFile "/home/chandramouli/CreatemultipleresourceinstancesappService.json"
