@@ -26,6 +26,7 @@
             }
         }  ,
         {
+            //This is just for testing...remove later.
             "type": "Microsoft.Sql/servers/databases",
             "apiVersion": "2017-10-01-preview",
             "name": "[concat(parameters('servers_spocdatabaseserver_name'), '/spocdatabasetemplate')]",
