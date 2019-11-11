@@ -19,7 +19,7 @@
             "type": "String"
         },
         "adminPassword": {
-            "defaultValue": "",
+            "defaultValue": "Sample@1234",
             "type": "String"
         },
         "location": {
