@@ -1,0 +1,170 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "diagnostics_applicationinsights_loggerId": {
+            "type": "SecureString"
+        },
+        "subscriptions_5da840efed98d20089070001_displayName": {
+            "type": "SecureString"
+        },
+        "subscriptions_5da840f0ed98d20089070002_displayName": {
+            "type": "SecureString"
+        },
+        "subscriptions_5dbae87bc0daf51b5c5a0067_displayName": {
+            "type": "SecureString"
+        },
+        "users_1_lastName": {
+            "type": "SecureString"
+        },
+        "service_MS3072APIManagementService_name": {
+            "defaultValue": "MS3072APIManagementService",
+            "type": "String"
+        },
+        "components_MicroServiceTestServices_externalid": {
+            "defaultValue": "/subscriptions/475c331c-ec40-4bac-8f68-78c151d93f76/resourceGroups/RYFPocRg/providers/microsoft.insights/components/MicroServiceTestServices",
+            "type": "String"
+        },
+        "components_MicroServiceTestServices_externalid_1": {
+            "defaultValue": "/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/dotnetcore-demo_app_resourcegroup/providers/microsoft.insights/components/MicroServiceTestServices",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [        
+       
+        
+        {
+            "type": "Microsoft.ApiManagement/service/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-header name=\"correlationid\" exists-action=\"skip\">\r\n      <value>@{ return Guid.NewGuid().ToString();  }\r\n    </value>\r\n    </set-header>\r\n  </inbound>\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n  <on-error>\r\n    <set-header name=\"ErrorSource\" exists-action=\"override\">\r\n      <value>@(context.LastError.Source)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorReason\" exists-action=\"override\">\r\n      <value>@(context.LastError.Reason)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorMessage\" exists-action=\"override\">\r\n      <value>@(context.LastError.Message)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorScope\" exists-action=\"override\">\r\n      <value>@(context.LastError.Scope)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorSection\" exists-action=\"override\">\r\n      <value>@(context.LastError.Section)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorPath\" exists-action=\"override\">\r\n      <value>@(context.LastError.Path)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorPolicyId\" exists-action=\"override\">\r\n      <value>@(context.LastError.PolicyId)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorStatusCode\" exists-action=\"override\">\r\n      <value>@(context.Response.StatusCode.ToString())</value>\r\n    </set-header>\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/master')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "scope": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name')), '/')]",
+                "displayName": "Built-in all-access subscription",
+                "state": "active",
+                "primaryKey": "7e5d8d7159ad426a8fb8b72a39ba9746",
+                "secondaryKey": "ffcc51c77d2b4e09ab50ea80e595b9f3",
+                "allowTracing": true
+            }
+        },
+         
+        {
+            "type": "Microsoft.ApiManagement/service/groups/users",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/administrators/1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/groups', parameters('service_MS3072APIManagementService_name'), 'administrators')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "firstName": "Administrator",
+                "lastName": "",
+                "email": "vcha@lab.morganstanley.com",
+                "state": "active",
+                "registrationDate": "2019-10-17T10:22:39.013Z",
+                "identities": [
+                    {
+                        "provider": "Azure",
+                        "id": "vcha@lab.morganstanley.com"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/groups/users",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/developers/1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/groups', parameters('service_MS3072APIManagementService_name'), 'developers')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "firstName": "Administrator",
+                "lastName": "",
+                "email": "vcha@lab.morganstanley.com",
+                "state": "active",
+                "registrationDate": "2019-10-17T10:22:39.013Z",
+                "identities": [
+                    {
+                        "provider": "Azure",
+                        "id": "vcha@lab.morganstanley.com"
+                    }
+                ]
+            }
+        },
+        
+        
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/5da840efed98d20089070001')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]",
+                "[resourceId('Microsoft.ApiManagement/service/users', parameters('service_MS3072APIManagementService_name'), '1')]",
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'starter')]"
+            ],
+            "properties": {
+                "ownerId": "[resourceId('Microsoft.ApiManagement/service/users', parameters('service_MS3072APIManagementService_name'), '1')]",
+                "scope": "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'starter')]",
+                "state": "active",
+                "primaryKey": "2dfb6ed594b34482a2d69652662ffabc",
+                "secondaryKey": "e46187189bcd490fa1649f47df0ccdbc",
+                "allowTracing": true,
+                "displayName": "[parameters('subscriptions_5da840efed98d20089070001_displayName')]"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/5da840f0ed98d20089070002')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]",
+                "[resourceId('Microsoft.ApiManagement/service/users', parameters('service_MS3072APIManagementService_name'), '1')]",
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'unlimited')]"
+            ],
+            "properties": {
+                "ownerId": "[resourceId('Microsoft.ApiManagement/service/users', parameters('service_MS3072APIManagementService_name'), '1')]",
+                "scope": "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'unlimited')]",
+                "state": "active",
+                "primaryKey": "039d68ae79134d0a851abe771d59d93b",
+                "secondaryKey": "3d46e0be37c14187b408b8c93d0c5bd2",
+                "allowTracing": true,
+                "displayName": "[parameters('subscriptions_5da840f0ed98d20089070002_displayName')]"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/5dbae87bc0daf51b5c5a0067')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]",
+                "[resourceId('Microsoft.ApiManagement/service/users', parameters('service_MS3072APIManagementService_name'), '1')]",
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), '54f99d5c516d4033a42bf540d1f692ee')]"
+            ],
+            "properties": {
+                "ownerId": "[resourceId('Microsoft.ApiManagement/service/users', parameters('service_MS3072APIManagementService_name'), '1')]",
+                "scope": "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), '54f99d5c516d4033a42bf540d1f692ee')]",
+                "state": "active",
+                "primaryKey": "d4d7cc5d9bc1446b84c01e922dc387b7",
+                "secondaryKey": "1ddbc0f377ad4e619c851909d097b512",
+                "allowTracing": true,
+                "displayName": "[parameters('subscriptions_5dbae87bc0daf51b5c5a0067_displayName')]"
+            }
+        }
+    ]
+}

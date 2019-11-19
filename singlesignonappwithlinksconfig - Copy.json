@@ -1,0 +1,1101 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+     "parameters": {
+           "secretsObject": {
+            "type": "secureObject",
+            "defaultValue": [
+                {
+                    "secretName": "cosmos--globalsqlcache--EndpointUrl",
+                    "secretValue": "https://globalsqlcache.documents.azure.com:443/"
+                },
+                {
+                    "secretName": "cosmos--globalsqlcache--PrimaryKey",
+                    "secretValue": "j4b3lQeiV1j0sM284OvGqtDt29z5v6nVmK4gPncqJ9VFyDldPWNBo4mIdqZRUi6W427f7T04me0cjMgT9pT9kQ=="
+                },
+                {
+                    "secretName": "JwtToken-SecretKey",
+                    "secretValue": "XCAP05H6LoKvbRRa/QkqLNMI7cOHguaRyHzyg7n5qEkGjQmtBhz4SzYh4Fqwjyi3KJHlSXKPwVu2+bXr6CtpgQ=="
+                },
+                {
+                    "secretName": "LoadCourses",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/Course"
+                },
+                {
+                    "secretName": "LoadCoursesbasedOnCourseID",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/Course/ID/"
+                },
+                {
+                    "secretName": "LoadCoursesBasedonCourseName-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/Course/name/"
+                },
+                {
+                    "secretName": "LoadStudents-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student"
+                },
+                {
+                    "secretName": "LoadStudentsBasedonCourse-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/Course/"
+                },
+                {
+                    "secretName": "LoadStudentsBasedonStudentID-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/ID/"
+                },
+                {
+                    "secretName": "LoadStudentsBasedonStudentName-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/name/"
+                },
+                {
+                    "secretName": "sql--spocdatabaseserver--ConnectionString",
+                    "secretValue": "Server=tcp:spocdatabaseserver.database.windows.net,1433;Initial Catalog=spocdatabase;Persist Security Info=False;User ID=vcha;Password=veebh@12345678;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+                },
+                {
+                    "secretName": "templatePassword",
+                    "secretValue": "veebh@1234"
+                }
+            ],
+            "metadata": {
+                "description": "Specifies all secrets {\"secretName\":\"\",\"secretValue\":\"\"} wrapped in a secure object."
+            }
+        },
+        "service_MS3072APIManagementService_name": {
+            "defaultValue": "MS3072APIManagementServicetemplate",
+            "type": "String"
+        },
+         "azureCosmosDocumentDbName": {
+            "defaultValue": "globalsqlcachetemplate",
+            "type": "String"
+        }
+     },
+    "variables": {
+      "appServiceName0":"MicroServiceTestServicesTemplate",
+      "appServiceName1":"StudentDataTestApiTemplate",
+      "appServiceName2":"StudentCourseAppTemplate",
+      "app_insights_name0":"MicroServiceTestServicesAppInsightsTemplate",
+      "app_insights_name1":"StudentDataTestApiAppInsightsTemplate",
+      "app_insights_name2":"StudentCourseAppAppInsightsTemplate",
+      "clientId0":"244e753a-d9c1-4e48-a9c2-9b452b6a9e16",
+      "clientId1":"142b3a7f-7972-4097-abe0-0303cfe64fc2",
+      "location":"[resourceGroup().location]",
+       "keyVaultName": "demoappkvtemplate",
+       "serverfarms_name" :"serverfarmsthroughtemplate",
+       "serverfarms_serverfarms_name_externalid":"[concat('/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/',resourceGroup().id,
+                '/providers/Microsoft.Web/serverfarms/',variables('serverfarms_name'))]",
+      "issuer": "https://sts.windows.net/8d09f28d-2b54-4761-98f1-de38762cd939/"
+    },
+    "resources": [
+    
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2016-08-01",
+            "name": "[variables(concat(variables('appServiceName0'), '/web'))]",
+            "location": "East US",
+            "dependsOn": [
+                // "[resourceId('Microsoft.Web/sites', variables('appServiceName'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "vcha",//not sure yet
+                "scmType": "LocalGit",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": true,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": true,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetName": "",
+                "siteAuthEnabled": true,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": "[variables('clientId0')]",
+                    "clientSecret": null,
+                    "clientSecretCertificateThumbprint": null,
+                    "issuer":"[variables('issuer')]",
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "localMySqlEnabled": false,
+                "managedServiceIdentityId": 4392,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0,
+                "fileChangeAuditEnabled": false,
+                "functionsRuntimeScaleMonitoringEnabled": false
+            }
+            
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2016-08-01",
+            "name": "[variables(concat(variables('appServiceName1'), '/web'))]",
+            "location": "East US",
+            "dependsOn": [
+                // "[resourceId('Microsoft.Web/sites', variables('appServiceName'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "vcha",//not sure yet
+                "scmType": "LocalGit",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": true,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": true,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetName": "",
+                "siteAuthEnabled": true,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": "[variables('clientId1')]",
+                    "clientSecret": null,
+                    "clientSecretCertificateThumbprint": null,
+                    "issuer":"[variables('issuer')]",
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "localMySqlEnabled": false,
+                "managedServiceIdentityId": 4392,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0,
+                "fileChangeAuditEnabled": false,
+                "functionsRuntimeScaleMonitoringEnabled": false
+            }
+            
+        },
+        
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2016-08-01",
+            "name": "[variables(concat(variables('appServiceName2'), '/web'))]",
+            "location": "East US",
+            "dependsOn": [
+                // "[resourceId('Microsoft.Web/sites', variables('appServiceName'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "vcha",//not sure yet
+                "scmType": "LocalGit",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": true,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": true,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetName": "",
+                "siteAuthEnabled": true,                
+                "localMySqlEnabled": false,
+                "managedServiceIdentityId": 4392,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0,
+                "fileChangeAuditEnabled": false,
+                "functionsRuntimeScaleMonitoringEnabled": false
+            }
+            
+        },
+        {
+          "apiVersion": "2018-02-01",
+          "name": "[variables(concat('appServiceName',copyIndex(), '/appsettings'))]",
+          "type": "Microsoft.Web/sites/config",
+          "dependsOn": [
+            // "[resourceId('Microsoft.Web/Sites', variables('appServiceName'))]"
+          ],
+          "properties": {
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('microsoft.insights/components/', variables(concat('app_insights_name',copyIndex())), '2015-05-01').InstrumentationKey)]"
+          },
+            "copy":{
+                "name":"storageCopy",
+                "count":3
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "name": "[concat(variables('keyVaultName'), '/', parameters('secretsObject').secrets[copyIndex()].secretName)]",
+            "apiVersion": "2018-02-14",
+            "dependsOn": [
+                //"[concat('Microsoft.KeyVault/vaults/', variables('keyVaultName'))]"
+            ],
+            "copy": {
+                "name": "secretsCopy",
+                "count": "[length(parameters('secretsObject').secrets)]"
+            },
+            "properties": {
+                "value": "[parameters('secretsObject').secrets[copyIndex()].secretValue]"
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+            "apiVersion": "2019-08-01",
+            "name": "[concat(parameters('azureCosmosDocumentDbName'), '/Students')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('azureCosmosDocumentDbName'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "Students"
+                },
+                "options": {}
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+            "apiVersion": "2019-08-01",
+            "name": "[concat(parameters('azureCosmosDocumentDbName'), '/Students/StudentGrades')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('azureCosmosDocumentDbName'), 'Students')]"
+                // "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_globalsqlcache_name'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "StudentGrades",
+                    "indexingPolicy": {
+                        "indexingMode": "consistent",
+                        "automatic": true,
+                        "includedPaths": [
+                            {
+                                "path": "/*"
+                            }
+                        ],
+                        "excludedPaths": [
+                            {
+                                "path": "/\"_etag\"/?"
+                            }
+                        ]
+                    },
+                    "partitionKey": {
+                        "paths": [
+                            "/personId"
+                        ],
+                        "kind": "Hash"
+                    },
+                    "conflictResolutionPolicy": {
+                        "mode": "LastWriterWins",
+                        "conflictResolutionPath": "/_ts"
+                    }
+                },
+                "options": {}
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+            "apiVersion": "2019-08-01",
+            "name": "[concat(parameters('azureCosmosDocumentDbName'), '/Students/StudentIndices')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('azureCosmosDocumentDbName'), 'Students')]"
+                // "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_globalsqlcache_name'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "StudentIndices",
+                    "indexingPolicy": {
+                        "indexingMode": "consistent",
+                        "automatic": true,
+                        "includedPaths": [
+                            {
+                                "path": "/*"
+                            }
+                        ],
+                        "excludedPaths": [
+                            {
+                                "path": "/\"_etag\"/?"
+                            }
+                        ]
+                    },
+                    "partitionKey": {
+                        "paths": [
+                            "/studentIndexId"
+                        ],
+                        "kind": "Hash"
+                    },
+                    "conflictResolutionPolicy": {
+                        "mode": "LastWriterWins",
+                        "conflictResolutionPath": "/_ts"
+                    }
+                },
+                "options": {}
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings",
+            "apiVersion": "2019-08-01",
+            "name": "[concat(parameters('azureCosmosDocumentDbName'), '/Students/StudentGrades/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers', parameters('azureCosmosDocumentDbName'), 'Students', 'StudentGrades')]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('azureCosmosDocumentDbName'), 'Students')]"
+                // "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_globalsqlcache_name'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "throughput": 400
+                }
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings",
+            "apiVersion": "2019-08-01",
+            "name": "[concat(parameters('azureCosmosDocumentDbName'), '/Students/StudentIndices/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers', parameters('azureCosmosDocumentDbName'), 'Students', 'StudentIndices')]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('azureCosmosDocumentDbName'), 'Students')]"
+                // "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('azureCosmosDocumentDbName'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "throughput": 400
+                }
+            }
+        },{
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/5db15818c0daf50dfcc9a5d2')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Logger-Credentials-5db15818c0daf50dfcc9a5d3",
+                "value": "cebd4173-3f34-478f-a2eb-80bce56928e7",
+                "secret": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/5db2d9cdc0daf50dfcc9a873')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Logger-Credentials-5db2d9cdc0daf50dfcc9a874",
+                "value": "890e57d5-accc-4d92-be07-8c575c0ae936",
+                "secret": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/5db2da1fc0daf50dfcc9a876')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Logger-Credentials-5db2da1fc0daf50dfcc9a877",
+                "value": "cebd4173-3f34-478f-a2eb-80bce56928e7",
+                "secret": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/MicroServiceTestBaseUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "MicroServiceTestBaseUrl",
+                "value": "https://microservicetestservices.azurewebsites.net/",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/OpenidConfigUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "OpenidConfigUrl",
+                "value": "https://login.microsoftonline.com/morganstanleylab.onmicrosoft.com/.well-known/openid-configuration",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/signing-key')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "signing-key",
+                "value": "aHR0cHM6Ly9zdHMud2luZG93cy5uZXQvOGQwOWYyOGQtMmI1NC00NzYxLTk4ZjEtZGUzODc2MmNkOTM5Lw==",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentAppAudience')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentAppAudience",
+                "value": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentAppTokenIssuer')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentAppTokenIssuer",
+                "value": "https://studentcourseapptemplate.azurewebsites.net",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataAudience')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataAudience",
+                "value": "https://microservicetestservices.azurewebsites.net",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataClientLocalUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataClientLocalUrl",
+                "value": "http://localhost:54794",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataClientRemoteUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataClientRemoteUrl",
+                "value": "https://studentcourseapptemplate.azurewebsites.net",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataIssuer')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataIssuer",
+                "value": "https://sts.windows.net/8d09f28d-2b54-4761-98f1-de38762cd939/",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataJwtSigningKey')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataJwtSigningKey",
+                "value": "XCAP05H6LoKvbRRa/QkqLNMI7cOHguaRyHzyg7n5qEkGjQmtBhz4SzYh4Fqwjyi3KJHlSXKPwVu2+bXr6CtpgQ==",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataTestBaseUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataTestBaseUrl",
+                "value": "https://studentdatatestapi.azurewebsites.net",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products/groups",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/54f99d5c516d4033a42bf540d1f692ee/administrators')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), '54f99d5c516d4033a42bf540d1f692ee')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Administrators",
+                "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",
+                "builtIn": true,
+                "type": "system"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products/groups",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/starter/administrators')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'starter')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Administrators",
+                "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",
+                "builtIn": true,
+                "type": "system"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products/groups",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/unlimited/administrators')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'unlimited')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Administrators",
+                "description": "Administrators is a built-in group. Its membership is managed by the system. Microsoft Azure subscription administrators fall into this group.",
+                "builtIn": true,
+                "type": "system"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products/groups",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/starter/developers')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'starter')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Developers",
+                "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",
+                "builtIn": true,
+                "type": "system"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products/groups",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/unlimited/developers')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'unlimited')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Developers",
+                "description": "Developers is a built-in group. Its membership is managed by the system. Signed-in users fall into this group.",
+                "builtIn": true,
+                "type": "system"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products/groups",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/starter/guests')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'starter')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Guests",
+                "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",
+                "builtIn": true,
+                "type": "system"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products/groups",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/unlimited/guests')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'unlimited')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "Guests",
+                "description": "Guests is a built-in group. Its membership is managed by the system. Unauthenticated users visiting the developer portal fall into this group.",
+                "builtIn": true,
+                "type": "system"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/starter/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'starter')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n            IMPORTANT:\r\n            - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n            - Only the <forward-request> policy element can appear within the <backend> section element.\r\n            - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n            - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n            - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n            - To remove a policy, delete the corresponding policy statement from the policy document.\r\n            - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n            - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n            - Policies are applied in the order of their appearance, from the top down.\r\n        -->\r\n<policies>\r\n  <inbound>\r\n    <rate-limit calls=\"5\" renewal-period=\"60\" />\r\n    <quota calls=\"100\" renewal-period=\"604800\" />\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/cource/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate', 'cource')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]"
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-backend-service base-url=\"{{StudentDataTestBaseUrl}}\" />\r\n    <authentication-managed-identity resource=\"{{StudentDataTestBaseUrl}}\" ignore-error=\"false\" output-token-variable-name=\"accesstoken\" />\r\n    <validate-jwt header-name=\"Authorization\" require-expiration-time=\"false\" require-scheme=\"Bearer\">\r\n      <issuer-signing-keys>\r\n        <key>{{StudentDataJwtSigningKey}}</key>\r\n      </issuer-signing-keys>\r\n      <issuers>\r\n        <issuer>{{StudentAppTokenIssuer}}</issuer>\r\n      </issuers>\r\n    </validate-jwt>\r\n    <set-header name=\"Authorization\" exists-action=\"override\">\r\n      <value>@(\"Bearer \" + context.Variables.GetValueOrDefault(\"accesstoken\",\"\"))</value>\r\n    </set-header>\r\n    <cors allow-credentials=\"true\">\r\n      <allowed-origins>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientRemoteUrl}}</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n      <allowed-headers>\r\n        <header>*</header>\r\n      </allowed-headers>\r\n      <expose-headers>\r\n        <header>*</header>\r\n      </expose-headers>\r\n    </cors>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/courceById/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate', 'courceById')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]"
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-backend-service base-url=\"{{StudentDataTestBaseUrl}}\" />\r\n    <authentication-managed-identity resource=\"{{StudentDataTestBaseUrl}}\" ignore-error=\"false\" output-token-variable-name=\"accesstoken\" />\r\n    <validate-jwt header-name=\"Authorization\" require-expiration-time=\"false\" require-scheme=\"Bearer\">\r\n      <issuer-signing-keys>\r\n        <key>{{StudentDataJwtSigningKey}}</key>\r\n      </issuer-signing-keys>\r\n      <issuers>\r\n        <issuer>{{StudentAppTokenIssuer}}</issuer>\r\n        <!-- if there are multiple possible issuers, then add additional issuer elements -->\r\n      </issuers>\r\n    </validate-jwt>\r\n    <set-header name=\"Authorization\" exists-action=\"override\">\r\n      <value>@(\"Bearer \" + context.Variables.GetValueOrDefault(\"accesstoken\",\"\"))</value>\r\n    </set-header>\r\n    <cors allow-credentials=\"true\">\r\n      <allowed-origins>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientRemoteUrl}}</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n      <allowed-headers>\r\n        <header>*</header>\r\n      </allowed-headers>\r\n      <expose-headers>\r\n        <header>*</header>\r\n      </expose-headers>\r\n    </cors>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/courcebyname/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate', 'courcebyname')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]"
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-backend-service base-url=\"{{StudentDataTestBaseUrl}}\" />\r\n    <authentication-managed-identity resource=\"{{StudentDataTestBaseUrl}}\" ignore-error=\"false\" output-token-variable-name=\"accesstoken\" />\r\n    <validate-jwt header-name=\"Authorization\" require-expiration-time=\"false\" require-scheme=\"Bearer\">\r\n      <issuer-signing-keys>\r\n        <key>{{StudentDataJwtSigningKey}}</key>\r\n      </issuer-signing-keys>\r\n      <issuers>\r\n        <issuer>{{StudentAppTokenIssuer}}</issuer>\r\n        <!-- if there are multiple possible issuers, then add additional issuer elements -->\r\n      </issuers>\r\n    </validate-jwt>\r\n    <set-header name=\"Authorization\" exists-action=\"override\">\r\n      <value>@(\"Bearer \" + context.Variables.GetValueOrDefault(\"accesstoken\",\"\"))</value>\r\n    </set-header>\r\n    <cors allow-credentials=\"true\">\r\n      <allowed-origins>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientRemoteUrl}}</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n      <allowed-headers>\r\n        <header>*</header>\r\n      </allowed-headers>\r\n      <expose-headers>\r\n        <header>*</header>\r\n      </expose-headers>\r\n    </cors>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/id/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate', 'id')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]"
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-backend-service base-url=\"{{StudentDataTestBaseUrl}}\" />\r\n    <authentication-managed-identity resource=\"{{StudentDataTestBaseUrl}}\" ignore-error=\"false\" output-token-variable-name=\"accesstoken\" />\r\n    <validate-jwt header-name=\"Authorization\" require-expiration-time=\"false\" require-scheme=\"Bearer\">\r\n      <issuer-signing-keys>\r\n        <key>{{StudentDataJwtSigningKey}}</key>\r\n      </issuer-signing-keys>\r\n      <issuers>\r\n        <issuer>{{StudentAppTokenIssuer}}</issuer>\r\n        <!-- if there are multiple possible issuers, then add additional issuer elements -->\r\n      </issuers>\r\n    </validate-jwt>\r\n    <set-header name=\"Authorization\" exists-action=\"override\">\r\n      <value>@(\"Bearer \" + context.Variables.GetValueOrDefault(\"accesstoken\",\"\"))</value>\r\n    </set-header>\r\n    <cors allow-credentials=\"true\">\r\n      <allowed-origins>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientRemoteUrl}}</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n      <allowed-headers>\r\n        <header>*</header>\r\n      </allowed-headers>\r\n      <expose-headers>\r\n        <header>*</header>\r\n      </expose-headers>\r\n    </cors>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/name/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate', 'name')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]"
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-backend-service base-url=\"{{StudentDataTestBaseUrl}}\" />\r\n    <authentication-managed-identity resource=\"{{StudentDataTestBaseUrl}}\" ignore-error=\"false\" output-token-variable-name=\"accesstoken\" />\r\n    <validate-jwt header-name=\"Authorization\" require-expiration-time=\"false\" require-scheme=\"Bearer\">\r\n      <issuer-signing-keys>\r\n        <key>{{StudentDataJwtSigningKey}}</key>\r\n      </issuer-signing-keys>\r\n      <issuers>\r\n        <issuer>{{StudentAppTokenIssuer}}</issuer>\r\n        <!-- if there are multiple possible issuers, then add additional issuer elements -->\r\n      </issuers>\r\n    </validate-jwt>\r\n    <set-header name=\"Authorization\" exists-action=\"override\">\r\n      <value>@(\"Bearer \" + context.Variables.GetValueOrDefault(\"accesstoken\",\"\"))</value>\r\n    </set-header>\r\n    <cors allow-credentials=\"true\">\r\n      <allowed-origins>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientRemoteUrl}}</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n      <allowed-headers>\r\n        <header>*</header>\r\n      </allowed-headers>\r\n      <expose-headers>\r\n        <header>*</header>\r\n      </expose-headers>\r\n    </cors>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/student/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate', 'student')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]"
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-backend-service base-url=\"{{StudentDataTestBaseUrl}}\" />\r\n    <authentication-managed-identity resource=\"{{StudentDataTestBaseUrl}}\" ignore-error=\"false\" output-token-variable-name=\"accesstoken\" />\r\n    <validate-jwt header-name=\"Authorization\" require-expiration-time=\"false\" require-scheme=\"Bearer\">\r\n      <issuer-signing-keys>\r\n        <key>{{StudentDataJwtSigningKey}}</key>\r\n      </issuer-signing-keys>\r\n      <issuers>\r\n        <issuer>{{StudentAppTokenIssuer}}</issuer>\r\n        <!-- if there are multiple possible issuers, then add additional issuer elements -->\r\n      </issuers>\r\n    </validate-jwt>\r\n    <set-header name=\"Authorization\" exists-action=\"override\">\r\n      <value>@(\"Bearer \" + context.Variables.GetValueOrDefault(\"accesstoken\",\"\"))</value>\r\n    </set-header>\r\n    <cors allow-credentials=\"true\">\r\n      <allowed-origins>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientRemoteUrl}}</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n      <allowed-headers>\r\n        <header>*</header>\r\n      </allowed-headers>\r\n      <expose-headers>\r\n        <header>*</header>\r\n      </expose-headers>\r\n    </cors>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/cource')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "GetCource",
+                "method": "GET",
+                "urlTemplate": "/api/student/course",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/courceById')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "GetCourceById",
+                "method": "GET",
+                "urlTemplate": "/api/student/course/id/*",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/courcebyname')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "GetCourceByName",
+                "method": "GET",
+                "urlTemplate": "/api/student/course/*",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/id')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "GetID",
+                "method": "GET",
+                "urlTemplate": "/api/student/id/*",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/name')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "GetName",
+                "method": "GET",
+                "urlTemplate": "/api/student/name/*",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/student')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "GetStudent",
+                "method": "GET",
+                "urlTemplate": "/api/student",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/studentcourcebyname')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "GetStudentCourceByName",
+                "method": "GET",
+                "urlTemplate": "/api/student/course/name/*",
+                "templateParameters": [],
+                "responses": []
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },{
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "studentcourseapptemplate",
+                "apiRevision": "1",
+                "subscriptionRequired": false,
+                "path": "StudentCourse",
+                "protocols": [
+                    "https"
+                ],
+                "isCurrent": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/backends",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/ApiApp_microservicetestservices')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "description": "MicroServiceTestServices",
+                "url": "https://microservicetestservices.azurewebsites.net",
+                "protocol": "http",
+                "resourceId": "https://management.azure.com/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/dotnetcore-demo_app_resourcegroup/providers/Microsoft.Web/sites/MicroServiceTestServices"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/backends",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/ApiApp_studentcourseapptemplate')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "description": "studentcourseapptemplate",
+                "url": "https://studentcourseapptemplate.azurewebsites.net",
+                "protocol": "http",
+                "resourceId": "https://management.azure.com/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/dotnetcore-demo_app_resourcegroup/providers/Microsoft.Web/sites/StudentCourseAppTemplate"
+            }
+        },{
+            "type": "Microsoft.ApiManagement/service/products/apis",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/unlimited/studentcourseapptemplate')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('service_MS3072APIManagementService_name'), 'unlimited')]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "studentcourseapptemplate",
+                "apiRevision": "1",
+                "description": "",
+                "subscriptionRequired": false,
+                "path": "StudentCourse",
+                "protocols": [
+                    "https"
+                ],
+                "isCurrent": true
+            }
+        },
+         
+        {
+            "type": "Microsoft.ApiManagement/service/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-header name=\"correlationid\" exists-action=\"skip\">\r\n      <value>@{ return Guid.NewGuid().ToString();  }\r\n    </value>\r\n    </set-header>\r\n  </inbound>\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n  <on-error>\r\n    <set-header name=\"ErrorSource\" exists-action=\"override\">\r\n      <value>@(context.LastError.Source)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorReason\" exists-action=\"override\">\r\n      <value>@(context.LastError.Reason)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorMessage\" exists-action=\"override\">\r\n      <value>@(context.LastError.Message)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorScope\" exists-action=\"override\">\r\n      <value>@(context.LastError.Scope)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorSection\" exists-action=\"override\">\r\n      <value>@(context.LastError.Section)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorPath\" exists-action=\"override\">\r\n      <value>@(context.LastError.Path)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorPolicyId\" exists-action=\"override\">\r\n      <value>@(context.LastError.PolicyId)</value>\r\n    </set-header>\r\n    <set-header name=\"ErrorStatusCode\" exists-action=\"override\">\r\n      <value>@(context.Response.StatusCode.ToString())</value>\r\n    </set-header>\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/studentcourseapptemplate/studentcourcebyname/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate', 'studentcourcebyname')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_MS3072APIManagementService_name'), 'studentcourseapptemplate')]"
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\r\n-->\r\n<policies>\r\n  <inbound>\r\n    <set-backend-service base-url=\"{{StudentDataTestBaseUrl}}\" />\r\n    <authentication-managed-identity resource=\"{{StudentDataTestBaseUrl}}\" ignore-error=\"false\" output-token-variable-name=\"accesstoken\" />\r\n    <validate-jwt header-name=\"Authorization\" require-expiration-time=\"false\" require-scheme=\"Bearer\">\r\n      <issuer-signing-keys>\r\n        <key>{{StudentDataJwtSigningKey}}</key>\r\n      </issuer-signing-keys>\r\n      <issuers>\r\n        <issuer>{{StudentAppTokenIssuer}}</issuer>\r\n        <!-- if there are multiple possible issuers, then add additional issuer elements -->\r\n      </issuers>\r\n    </validate-jwt>\r\n    <set-header name=\"Authorization\" exists-action=\"override\">\r\n      <value>@(\"Bearer \" + context.Variables.GetValueOrDefault(\"accesstoken\",\"\"))</value>\r\n    </set-header>\r\n    <cors allow-credentials=\"true\">\r\n      <allowed-origins>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientLocalUrl}}</origin>\r\n        <origin>{{StudentDataClientRemoteUrl}}</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n      <allowed-headers>\r\n        <header>*</header>\r\n      </allowed-headers>\r\n      <expose-headers>\r\n        <header>*</header>\r\n      </expose-headers>\r\n    </cors>\r\n    <base />\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                "format": "xml"
+            }
+        }
+    ]
+}
+
+
+//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev  -TemplateFile "/home/chandramouli/singlesignonappwithlinksconfig.json"

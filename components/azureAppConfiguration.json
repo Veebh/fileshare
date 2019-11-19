@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "azureAppConfigurationName": {
+            "defaultValue": "dotnetcoreserviceconfigtemplate",
+            "type": "String"
+        }
+     },
+     "variables": { },
+    "resources": [  
+         {
+            "type": "Microsoft.AppConfiguration/configurationStores",
+            "apiVersion": "2019-02-01-preview",
+            "name": "[parameters('azureAppConfigurationName')]",
+            "location": "eastus",
+            "properties": {
+                "provisioningState": "Succeeded",
+                "creationDate": "2019-09-20T10:31:41+00:00",
+                "endpoint": "[concat('https://', parameters('azureAppConfigurationName'), '.azconfig.io')]"
+            }
+        }
+    ]
+}

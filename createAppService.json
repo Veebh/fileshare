@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    
+     "variables": {
+      "appServiceName":"MicroServiceTestServicesTemplate",
+      "location":"[resourceGroup().location]",
+       "serverfarms_name" :"serverfarmsthroughtemplate",
+       "serverfarms_serverfarms_name_externalid":"[concat('/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/',resourceGroup().id,
+                '/providers/Microsoft.Web/serverfarms/',variables('serverfarms_name'))]"
+    },
+    "resources": [          
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-08-01",
+            "name": "[variables('appServiceName')]",
+            "location": "[variables('location')]",
+            "kind": "app",
+            "identity": {
+                "principalId": "",
+                "tenantId": "",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "enabled": true,               
+                "serverFarmId": "[variables('serverfarms_serverfarms_name_externalid')]",
+                "reserved": false,
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false
+            },
+            "dependsOn":[
+               "[resourceId('Microsoft.Web/serverfarms', variables('serverfarms_name'))]"
+            ]            
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "name": "[variables('serverfarms_name')]",
+            "location": "[variables('location')]",
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            },
+            "kind": "app",
+            "properties": {
+                "name": "[variables('serverfarms_name')]",
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            }
+        }
+    ]
+}
+
+//New-AzResourceGroup -Name myResourceGroupDev -Location "East US"
+//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev  -TemplateFile "/home/chandramouli/createAppService.json"

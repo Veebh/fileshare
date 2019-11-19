@@ -1,10 +1,10 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "serverName": {
       "type": "string",
-      "defaultValue": "[concat('server-', uniqueString(resourceGroup().id, deployment().name))]",
+      "defaultValue": "[concat('server-', uniqueString(resourceGroup().id))]",
       "metadata": {
         "description": "Name for the SQL server"
       }
@@ -22,7 +22,7 @@
     },
     "databaseName": {
       "type": "string",
-      "defaultValue": "[concat('db-', uniqueString(resourceGroup().id, deployment().name), '-1')]",
+      "defaultValue": "[concat('db-', uniqueString(resourceGroup().id), '-1')]",
       "metadata": {
         "description": "Name for the SQL database under the SQL server"
       }
@@ -52,7 +52,8 @@
       }
     },
     "adminPassword": {
-      "type": "Tiger@1234",
+       "type": "string",
+      "defaultValue": "Tiger@1234",
       "metadata": {
         "description": "Password for admin"
       }
@@ -134,7 +135,7 @@
             "properties": {
                 "storageKeyType": "SharedAccessKey",
                 "storageKey": "?",
-                "storageUri": "https://github.com/Azure/azure-docs-json-samples/raw/master/tutorial-sql-extension/SQLDatabaseExtension.bacpac",
+                "storageUri": "https://github.com/Veebh/fileshare/blob/master/SQL/spocdatabase-2019-11-11-9-52.bacpac?raw=true",
                 "administratorLogin": "[variables('databaseServerAdminLogin')]",
                 "administratorLoginPassword": "[variables('databaseServerAdminLoginPassword')]",
                 "operationMode": "Import"
@@ -144,3 +145,12 @@
     }
   ]
 }
+
+
+ 
+ 
+ 
+// $adminPassword = Read-Host -Prompt "Enter the admin password" -AsSecureString
+
+// New-AzResourceGroup -Name myResourceGroupDev  -Location "EAST US"
+// New-AzResourceGroupDeployment      -ResourceGroupName myResourceGroupDev       -adminUser "sql"      -adminPassword $adminPassword      -TemplateFile "/home/chandramouli/sqltemplateforbacpac.json"

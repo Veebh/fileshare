@@ -1,0 +1,119 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+     "parameters": {
+          
+        "service_MS3072APIManagementService_name": {
+            "defaultValue": "MS3072APIManagementServicetemplate",
+            "type": "String"
+        },
+         "azureCosmosDocumentDbName": {
+            "defaultValue": "globalsqlcachetemplate",
+            "type": "String"
+        }
+     },
+    "variables": {
+      "appServiceName0":"MicroServiceTestServicesTemplate",
+      "appServiceName1":"StudentDataTestApiTemplate",
+      "appServiceName2":"StudentCourseAppTemplate",
+      "app_insights_name0":"3b427902-4939-4688-872b-10b35a29741e",
+      "app_insights_name1":"3b66ca8f-8819-46b3-ad66-643b2bf904b2",
+      "app_insights_name2":"f05e16ce-c289-41ea-b8c8-f1ce21fe6f63",
+      "clientId0":"244e753a-d9c1-4e48-a9c2-9b452b6a9e16",
+      "clientId1":"142b3a7f-7972-4097-abe0-0303cfe64fc2",
+      "location":"[resourceGroup().location]",
+       "keyVaultName": "demoappkvtemplate",
+       "serverfarms_name" :"serverfarmsthroughtemplate",
+       "serverfarms_serverfarms_name_externalid":"[concat('/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/',resourceGroup().id,
+                '/providers/Microsoft.Web/serverfarms/',variables('serverfarms_name'))]",
+      "issuer": "https://sts.windows.net/8d09f28d-2b54-4761-98f1-de38762cd939/"
+    },
+    "resources": [
+    
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(concat(variables('appServiceName0'), '/web'))]",
+            "location": "East US",
+            "dependsOn": [
+                // "[resourceId('Microsoft.Web/sites', variables('appServiceName'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "vcha",//not sure yet
+                "scmType": "LocalGit",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": true,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": true,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetName": "",
+                "siteAuthEnabled": true,
+                "siteAuthSettings": {
+                "enabled": true,
+                "unauthenticatedClientAction": "RedirectToLoginPage",
+                "tokenStoreEnabled": true,
+                "defaultProvider": "AzureActiveDirectory",
+                "clientId": "[variables('clientId0')]",
+                "issuer": "[variables('issuer')]",
+                "allowedAudiences": [
+                    "[concat('https://', variables('appServiceName0'), '.azurewebsites.net')]"
+                ],
+                "localMySqlEnabled": false,
+                "managedServiceIdentityId": 4392,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0,
+                "fileChangeAuditEnabled": false,
+                "functionsRuntimeScaleMonitoringEnabled": false
+            }
+            
+        }  
+    }
+    ]
+}
+// Remove-AzResourceGroup -Name myResourceGroupDev
+// New-AzResourceGroup -Name myResourceGroupDev -Location "East US"
+// New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev -TemplateFile "/home/chandramouli/createAppService.json"
+// New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev  -TemplateFile "/home/chandramouli/createAppService.config.json"
+

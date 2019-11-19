@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    "secretsObject": {
+      "value": {
+        "secrets": [
+                {
+                    "secretName": "cosmos--globalsqlcache--EndpointUrl",
+                    "secretValue": "https://globalsqlcache.documents.azure.com:443/"
+                },
+                {
+                    "secretName": "cosmos--globalsqlcache--PrimaryKey",
+                    "secretValue": "j4b3lQeiV1j0sM284OvGqtDt29z5v6nVmK4gPncqJ9VFyDldPWNBo4mIdqZRUi6W427f7T04me0cjMgT9pT9kQ=="
+                },
+                {
+                    "secretName": "JwtToken-SecretKey",
+                    "secretValue": "XCAP05H6LoKvbRRa/QkqLNMI7cOHguaRyHzyg7n5qEkGjQmtBhz4SzYh4Fqwjyi3KJHlSXKPwVu2+bXr6CtpgQ=="
+                },
+                {
+                    "secretName": "LoadCourses",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/Course"
+                },
+                {
+                    "secretName": "LoadCoursesbasedOnCourseID",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/Course/ID/"
+                },
+                {
+                    "secretName": "LoadCoursesBasedonCourseName-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/Course/name/"
+                },
+                {
+                    "secretName": "LoadStudents-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student"
+                },
+                {
+                    "secretName": "LoadStudentsBasedonCourse-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/Course/"
+                },
+                {
+                    "secretName": "LoadStudentsBasedonStudentID-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/ID/"
+                },
+                {
+                    "secretName": "LoadStudentsBasedonStudentName-URI",
+                    "secretValue": "https://ms3072apimanagementservice.azure-api.net/StudentCourse/api/student/name/"
+                },
+                {
+                    "secretName": "sql--spocdatabaseserver--ConnectionString",
+                    "secretValue": "Server=tcp:spocdatabaseserver.database.windows.net,1433;Initial Catalog=spocdatabase;Persist Security Info=False;User ID=vcha;Password=veebh@12345678;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+                },
+                {
+                    "secretName": "templatePassword",
+                    "secretValue": "veebh@1234"
+                }
+            ]
+      }
+    }
+    }
+}
+
+
+//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev  -TemplateFile "/home/chandramouli/singlesignonappwithlinksconfig.json"
