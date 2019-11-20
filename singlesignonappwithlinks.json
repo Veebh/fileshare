@@ -160,7 +160,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri":"https://raw.githubusercontent.com/Veebh/fileshare/master/components/serverfarms.json"
+                    "uri":"https://raw.githubusercontent.com/Veebh/fileshare/master/components/azureServerFarms.json"
                 },
                 "parameters": {
                     "location":{"value": "[parameters('location')]"},
@@ -170,7 +170,7 @@
         },    
         //Azuer app service    
         {
-            "name": "appServicelinkedTemplate",
+            "name": "[concat('appServicelinkedTemplate',copyIndex())]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-05-01",
             "properties": {
@@ -180,7 +180,8 @@
                 },
                 "parameters": {
                     "location":{"value": "[parameters('location')]"},
-                    "serverfarms_name":{"value": "[variables(concat('appService',copyIndex()))]"},
+                    "serverfarms_name":{"value": "[parameters('serverfarms_name')]"},
+                    "appServiceName":{"value": "[variables(concat('appService',copyIndex()))]"},
                     "serverfarms_serverfarms_name_externalid": "[parameters('serverfarms_serverfarms_name_externalid')]"
                 }            
             },
@@ -190,12 +191,14 @@
             },
             "dependsOn":[
                "serverfarmslinkedTemplate",
-               "azureAppInsightslinkedTemplate"
+               "azureAppInsightslinkedTemplate0",
+               "azureAppInsightslinkedTemplate1",
+               "azureAppInsightslinkedTemplate2"
             ]
         },
         //Azure app insights
         {
-            "name": "azureAppInsightslinkedTemplate",
+            "name": "[concat('azureAppInsightslinkedTemplate',copyIndex())]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-05-01",
             "properties": {
