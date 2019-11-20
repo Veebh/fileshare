@@ -50,29 +50,49 @@
          "users_1_lastName": {
             "type": "SecureString",
             "defaultValue":"chandramouli"
-        },"configurationStores_dotnetcoreserviceconfig_name": {
+        },
+        "configurationStores_dotnetcoreserviceconfig_name": {
             "defaultValue": "dotnetcoreserviceconfigtemplate",
+            "type": "String"
+        },
+        "appService0": {
+            "defaultValue": "MicroServiceTestServicesTemplate",
+            "type": "String"
+        },
+        "appService1": {
+            "defaultValue": "StudentDataTestApiTemplate",
+            "type": "String"
+        },
+        "appService2": {
+            "defaultValue": "StudentCourseAppTemplate",
+            "type": "String"
+        },
+        "app_insights_name0": {
+            "defaultValue": "MicroServiceTestServicesAppInsightsTemplate",
+            "type": "String"
+        },
+        "app_insights_name1": {
+            "defaultValue": "StudentDataTestApiAppInsightsTemplate",
+            "type": "String"
+        },
+        "app_insights_name2": {
+            "defaultValue": "StudentCourseAppAppInsightsTemplate",
             "type": "String"
         }
     },
      "variables": {
-      "appService0":"MicroServiceTestServicesTemplate",
-      "appService1":"StudentDataTestApiTemplate",
-      "appService2":"StudentCourseAppTemplate",
-      "app_insights_name0":"MicroServiceTestServicesAppInsightsTemplate",
-      "app_insights_name1":"StudentDataTestApiAppInsightsTemplate",
-      "app_insights_name2":"StudentCourseAppAppInsightsTemplate"
+       
     },
     "resources": [  
         //Sql server
         {
-            "name": "createsqldatabasevialinked",
+            "name": "azureSqlServerlinkedTemplate",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-05-01",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri":"https://raw.githubusercontent.com/Veebh/fileshare/master/createsqldatabasevialinked.json"
+                    "uri":"https://raw.githubusercontent.com/Veebh/fileshare/master/components/azureSqlServer.json"
                 },
                 "parameters": {
                     "servers_spocdatabaseserver_name":{"value": "[parameters('servers_spocdatabaseserver_name')]"},
@@ -181,8 +201,8 @@
                 "parameters": {
                     "location":{"value": "[parameters('location')]"},
                     "serverfarms_name":{"value": "[parameters('serverfarms_name')]"},
-                    "appServiceName":{"value": "[variables(concat('appService',copyIndex()))]"},
-                    "serverfarms_serverfarms_name_externalid": "[parameters('serverfarms_serverfarms_name_externalid')]"
+                    "appServiceName":{"value": "[parameters(concat('appService',copyIndex()))]"},
+                    "serverfarms_serverfarms_name_externalid": {"value": "[parameters('serverfarms_serverfarms_name_externalid')]"}
                 }            
             },
             "copy":{
@@ -207,7 +227,7 @@
                     "uri":"https://raw.githubusercontent.com/Veebh/fileshare/master/components/azureAppInsights.json"
                 },
                 "parameters": { 
-                   "app_insights_name": "[variables(concat('app_insights_name',copyIndex()))]",
+                   "app_insights_name":  {"value":"[parameters(concat('app_insights_name',copyIndex()))]"},
                     "location":{"value": "[parameters('location')]"}
                 }            
             },
