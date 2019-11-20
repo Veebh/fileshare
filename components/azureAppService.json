@@ -7,7 +7,7 @@
                 "type": "String"
         },  
         "serverfarms_serverfarms_name_externalid": {
-                "defaultValue": "[concat('/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/',resourceGroup().id,
+                "defaultValue": "[concat('/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups',resourceGroup().id,
                 '/providers/Microsoft.Web/serverfarms/',parameters('serverfarms_name'))]",
             "type": "String"
         },
