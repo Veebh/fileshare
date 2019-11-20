@@ -1,0 +1,173 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+     "parameters": {
+           "service_MS3072APIManagementService_name": {
+            "defaultValue": "MS3072APIManagementServicetemplate",
+            "type": "String"
+        }
+     },
+    "variables": {
+      "MicroServiceTestBaseUrl":"https://microservicetestservicestemplate.azurewebsites.net/",
+      "OpenidConfigUrl":"https://login.microsoftonline.com/morganstanleylab.onmicrosoft.com/.well-known/openid-configuration",
+      "signing-key":"aHR0cHM6Ly9zdHMud2luZG93cy5uZXQvOGQwOWYyOGQtMmI1NC00NzYxLTk4ZjEtZGUzODc2MmNkOTM5Lw==",
+      "StudentAppAudience":"https://ms3072apimanagementservicetemplate.azure-api.net/StudentCourse/api/student",
+      "StudentAppTokenIssuer":"https://studentcourseapptemplate.azurewebsites.net",
+      "StudentDataAudience":"https://microservicetestservicestemplate.azurewebsites.net",
+      "StudentDataClientLocalUrl":"http://localhost:54794",
+      "StudentDataClientRemoteUrl":"https://studentcourseapptemplate.azurewebsites.net",
+      "StudentDataIssuer":"https://sts.windows.net/8d09f28d-2b54-4761-98f1-de38762cd939/",
+      "StudentDataJwtSigningKey":"XCAP05H6LoKvbRRa/QkqLNMI7cOHguaRyHzyg7n5qEkGjQmtBhz4SzYh4Fqwjyi3KJHlSXKPwVu2+bXr6CtpgQ==",
+      "StudentDataTestBaseUrl":"https://studentdatatestapitemplate.azurewebsites.net"
+    },
+    "resources": [
+    
+       //App service       
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/MicroServiceTestBaseUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "MicroServiceTestBaseUrl",
+                "value": "[variables('MicroServiceTestBaseUrl')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/OpenidConfigUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "OpenidConfigUrl",
+                "value": "[variables('OpenidConfigUrl')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/signing-key')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "signing-key",
+                "value": "[variables('signing-key')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentAppAudience')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentAppAudience",
+                "value": "[variables('StudentAppAudience')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentAppTokenIssuer')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentAppTokenIssuer",
+                "value": "[variables('StudentAppTokenIssuer')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataAudience')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataAudience",
+                "value": "[variables('StudentDataAudience')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataClientLocalUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataClientLocalUrl",
+                "value": "[variables('StudentDataClientLocalUrl')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataClientRemoteUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataClientRemoteUrl",
+                "value": "[variables('StudentDataClientRemoteUrl')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataIssuer')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataIssuer",
+                "value": "[variables('StudentDataIssuer')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataJwtSigningKey')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataJwtSigningKey",
+                "value": "[variables('StudentDataJwtSigningKey')]",
+                "secret": false
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/properties",
+            "apiVersion": "2019-01-01",
+            "name": "[concat(parameters('service_MS3072APIManagementService_name'), '/StudentDataTestBaseUrl')]",
+            "dependsOn": [
+                // "[resourceId('Microsoft.ApiManagement/service', parameters('service_MS3072APIManagementService_name'))]"
+            ],
+            "properties": {
+                "displayName": "StudentDataTestBaseUrl",
+                "value": "[variables('StudentDataTestBaseUrl')]",
+                "secret": false
+            }
+        }       
+    ]
+}
+
+
+//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev  -TemplateFile "/home/chandramouli/singlesignonappwithlinksconfig.json" -TemplateParameterFile "/home/chandramouli/singlesignonappwithlinksconfig.parameters.json"
