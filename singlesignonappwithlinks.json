@@ -61,8 +61,7 @@
       "appService2":"StudentCourseAppTemplate",
       "app_insights_name0":"MicroServiceTestServicesAppInsightsTemplate",
       "app_insights_name1":"StudentDataTestApiAppInsightsTemplate",
-      "app_insights_name2":"StudentCourseAppAppInsightsTemplate",
-      "subscriptions_5da840efed98d20089070001_displayName":"starter"
+      "app_insights_name2":"StudentCourseAppAppInsightsTemplate"
     },
     "resources": [  
         //Sql server
@@ -131,30 +130,29 @@
                 }            
             },
             "dependsOn":[
-                // "[resourceId('Microsoft.KeyVault/vaults',parameters('azureKeyVaultName'))]"                
+                "azureKeyVaultlinkedTemplate"                
             ]
         },
+        //Azure cosmos document db
         {
-            "name": "azureApiManagementServicelinkedTemplate",
+            "name": "azureCosmosDocumentDBlinkedTemplate",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-05-01",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri":"https://raw.githubusercontent.com/Veebh/fileshare/master/components/azureApiManagementService.json"
+                    "uri":"https://raw.githubusercontent.com/Veebh/fileshare/master/components/azureCosmosDocumentDB.json"
                 },
                 "parameters": {
                     "location":{"value": "[parameters('location')]"},
-                    "apiManagementServiceName":{"value": "[parameters('service_MS3072APIManagementService_name')]"},
-                    "users_1_lastName":{"value": "[parameters('users_1_lastName')]"},
-                    "subscriptions_starter_displayName":{"value": "[parameters('subscriptions_5da840efed98d20089070001_displayName')]"},
-                    "subscriptions_unlimited_displayName":{"value": "[parameters('subscriptions_5da840f0ed98d20089070002_displayName')]"}
+                    "azureCosmosDocumentDbName":{"value": "[parameters('azureCosmosDocumentDbName')]"}
                 }            
             },
             "dependsOn":[
-                // "[resourceId('Microsoft.KeyVault/vaults',parameters('azureKeyVaultName'))]"                
+                 "azureKeyVaultlinkedTemplate"               
             ]
         },        
+        // app servoce plan
         {
             "name": "serverfarmslinkedTemplate",
             "type": "Microsoft.Resources/deployments",
@@ -169,7 +167,8 @@
                     "serverfarms_name":{"value": "[parameters('serverfarms_name')]"}
                 }            
             }
-        },        
+        },    
+        //Azuer app service    
         {
             "name": "appServicelinkedTemplate",
             "type": "Microsoft.Resources/deployments",
@@ -194,6 +193,7 @@
                "azureAppInsightslinkedTemplate"
             ]
         },
+        //Azure app insights
         {
             "name": "azureAppInsightslinkedTemplate",
             "type": "Microsoft.Resources/deployments",
