@@ -421,9 +421,9 @@
             ],
             "properties": {
                 "description": "MicroServiceTestServices",
-                "url": "https://microservicetestservices.azurewebsites.net",
+                "url": "https://microservicetestservicestemplate.azurewebsites.net",
                 "protocol": "http",
-                "resourceId": "https://management.azure.com/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/dotnetcore-demo_app_resourcegroup/providers/Microsoft.Web/sites/MicroServiceTestServices"
+                "resourceId": "[concat('https://management.azure.com/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/',resourceGroup().id,'/providers/Microsoft.Web/sites/MicroServiceTestServicesTemplate')]"
             }
         },
         {
@@ -437,7 +437,7 @@
                 "description": "studentcourseapptemplate",
                 "url": "https://studentcourseapptemplate.azurewebsites.net",
                 "protocol": "http",
-                "resourceId": "https://management.azure.com/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/dotnetcore-demo_app_resourcegroup/providers/Microsoft.Web/sites/StudentCourseAppTemplate"
+                "resourceId": "[concat('https://management.azure.com/subscriptions/7e0e43d5-a90c-416b-9a2a-dd6491d1ff75/resourceGroups/',resourceGroup().id,'/providers/Microsoft.Web/sites/StudentCourseAppTemplate')]"
             }
         },
         {

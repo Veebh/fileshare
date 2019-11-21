@@ -240,4 +240,4 @@
 }
 
 //New-AzResourceGroup -Name myResourceGroupDev -Location "East US"
-//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev -TemplateFile "/home/chandramouli/singlesignonappwithlinks.json"  -TemplateParameterFile "/home/chandramouli/singlesignonapp.parameters.dev.json"
+//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev -TemplateFile "/home/chandramouli/singlesignonappwithlinks.json"  -TemplateParameterFile "/home/chandramouli/singlesignonappwithlinks.parameters.dev.json"

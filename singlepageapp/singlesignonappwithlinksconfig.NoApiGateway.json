@@ -447,4 +447,4 @@
 }
 
 
-//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev  -TemplateFile "/home/chandramouli/singlesignonappwithlinksconfig.json" -TemplateParameterFile "/home/chandramouli/singlesignonappwithlinksconfig.parameters.json"
+//New-AzResourceGroupDeployment  -ResourceGroupName myResourceGroupDev  -TemplateFile "/home/chandramouli/singlesignonappwithlinksconfig.NoApiGateway.json" -TemplateParameterFile "/home/chandramouli/singlesignonappwithlinksconfig.parameters.json"
