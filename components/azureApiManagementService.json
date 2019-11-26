@@ -928,7 +928,7 @@
             "name": "[concat(parameters('apiManagementServiceName'), '/5da840efed98d20089070001')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]",
-                "[resourceId('Microsoft.ApiManagement/service/users', parameters('apiManagementServiceName'), '1')]",
+                // "[resourceId('Microsoft.ApiManagement/service/users', parameters('apiManagementServiceName'), '1')]",
                 "[resourceId('Microsoft.ApiManagement/service/products', parameters('apiManagementServiceName'), 'starter')]"
             ],
             "properties": {
