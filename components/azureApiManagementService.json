@@ -932,7 +932,7 @@
                 "[resourceId('Microsoft.ApiManagement/service/products', parameters('apiManagementServiceName'), 'starter')]"
             ],
             "properties": {
-                "ownerId": "[resourceId('Microsoft.ApiManagement/service/users', parameters('apiManagementServiceName'), '1')]",
+                // "ownerId": "[resourceId('Microsoft.ApiManagement/service/users', parameters('apiManagementServiceName'), '1')]",
                 "scope": "[resourceId('Microsoft.ApiManagement/service/products', parameters('apiManagementServiceName'), 'starter')]",
                 "state": "active",
                 "primaryKey": "2dfb6ed594b34482a2d69652662ffabc",
@@ -947,11 +947,11 @@
             "name": "[concat(parameters('apiManagementServiceName'), '/5da840f0ed98d20089070002')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]",
-                "[resourceId('Microsoft.ApiManagement/service/users', parameters('apiManagementServiceName'), '1')]",
+                // "[resourceId('Microsoft.ApiManagement/service/users', parameters('apiManagementServiceName'), '1')]",
                 "[resourceId('Microsoft.ApiManagement/service/products', parameters('apiManagementServiceName'), 'unlimited')]"
             ],
             "properties": {
-                "ownerId": "[resourceId('Microsoft.ApiManagement/service/users', parameters('apiManagementServiceName'), '1')]",
+                // "ownerId": "[resourceId('Microsoft.ApiManagement/service/users', parameters('apiManagementServiceName'), '1')]",
                 "scope": "[resourceId('Microsoft.ApiManagement/service/products', parameters('apiManagementServiceName'), 'unlimited')]",
                 "state": "active",
                 "primaryKey": "039d68ae79134d0a851abe771d59d93b",
