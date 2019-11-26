@@ -842,86 +842,87 @@
                 "state": "published"
             }
         },
+        // {
+        //     "type": "Microsoft.ApiManagement/service/users",
+        //     "apiVersion": "2019-01-01",
+        //     "name": "[concat(parameters('apiManagementServiceName'), '/1')]",
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+        //     ],
+        //     "properties": {
+        //         "firstName": "Administrator",
+        //         "email": "vcha@lab.morganstanley.com",
+        //         "state": "active",
+        //         "identities": [
+        //             {
+        //                 "provider": "Azure",
+        //                 "id": "vcha@lab.morganstanley.com"
+        //             }
+        //         ],
+        //         "lastName": "[parameters('users_1_lastName')]"
+        //     }
+        // }, 
+        // {
+        //     "type": "Microsoft.ApiManagement/service/subscriptions",
+        //     "apiVersion": "2019-01-01",
+        //     "name": "[concat(parameters('apiManagementServiceName'), '/master')]",
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+        //     ],
+        //     "properties": {
+        //         "scope": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName')), '/')]",
+        //         "displayName": "Built-in all-access subscription",
+        //         "state": "active",
+        //         "primaryKey": "7e5d8d7159ad426a8fb8b72a39ba9746",
+        //         "secondaryKey": "ffcc51c77d2b4e09ab50ea80e595b9f3",
+        //         "allowTracing": true
+        //     }
+        // }, 
+        // {
+        //     "type": "Microsoft.ApiManagement/service/groups/users",
+        //     "apiVersion": "2019-01-01",
+        //     "name": "[concat(parameters('apiManagementServiceName'), '/administrators/1')]",
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.ApiManagement/service/groups', parameters('apiManagementServiceName'), 'administrators')]",
+        //         "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+        //     ],
+        //     "properties": {
+        //         "firstName": "Administrator",
+        //         "lastName": "",
+        //         "email": "vcha@lab.morganstanley.com",
+        //         "state": "active",
+        //         "registrationDate": "2019-10-17T10:22:39.013Z",
+        //         "identities": [
+        //             {
+        //                 "provider": "Azure",
+        //                 "id": "vcha@lab.morganstanley.com"
+        //             }
+        //         ]
+        //     }
+        // },
+        // {
+        //     "type": "Microsoft.ApiManagement/service/groups/users",
+        //     "apiVersion": "2019-01-01",
+        //     "name": "[concat(parameters('apiManagementServiceName'), '/developers/1')]",
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.ApiManagement/service/groups', parameters('apiManagementServiceName'), 'developers')]",
+        //         "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+        //     ],
+        //     "properties": {
+        //         "firstName": "Administrator",
+        //         "lastName": "",
+        //         "email": "vcha@lab.morganstanley.com",
+        //         "state": "active",
+        //         "registrationDate": "2019-10-17T10:22:39.013Z",
+        //         "identities": [
+        //             {
+        //                 "provider": "Azure",
+        //                 "id": "vcha@lab.morganstanley.com"
+        //             }
+        //         ]
+        //     }
+        // },
         {
-            "type": "Microsoft.ApiManagement/service/users",
-            "apiVersion": "2019-01-01",
-            "name": "[concat(parameters('apiManagementServiceName'), '/1')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
-            ],
-            "properties": {
-                "firstName": "Administrator",
-                "email": "vcha@lab.morganstanley.com",
-                "state": "active",
-                "identities": [
-                    {
-                        "provider": "Azure",
-                        "id": "vcha@lab.morganstanley.com"
-                    }
-                ],
-                "lastName": "[parameters('users_1_lastName')]"
-            }
-        }, 
-        {
-            "type": "Microsoft.ApiManagement/service/subscriptions",
-            "apiVersion": "2019-01-01",
-            "name": "[concat(parameters('apiManagementServiceName'), '/master')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
-            ],
-            "properties": {
-                "scope": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName')), '/')]",
-                "displayName": "Built-in all-access subscription",
-                "state": "active",
-                "primaryKey": "7e5d8d7159ad426a8fb8b72a39ba9746",
-                "secondaryKey": "ffcc51c77d2b4e09ab50ea80e595b9f3",
-                "allowTracing": true
-            }
-        }, 
-        {
-            "type": "Microsoft.ApiManagement/service/groups/users",
-            "apiVersion": "2019-01-01",
-            "name": "[concat(parameters('apiManagementServiceName'), '/administrators/1')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/groups', parameters('apiManagementServiceName'), 'administrators')]",
-                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
-            ],
-            "properties": {
-                "firstName": "Administrator",
-                "lastName": "",
-                "email": "vcha@lab.morganstanley.com",
-                "state": "active",
-                "registrationDate": "2019-10-17T10:22:39.013Z",
-                "identities": [
-                    {
-                        "provider": "Azure",
-                        "id": "vcha@lab.morganstanley.com"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.ApiManagement/service/groups/users",
-            "apiVersion": "2019-01-01",
-            "name": "[concat(parameters('apiManagementServiceName'), '/developers/1')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/groups', parameters('apiManagementServiceName'), 'developers')]",
-                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
-            ],
-            "properties": {
-                "firstName": "Administrator",
-                "lastName": "",
-                "email": "vcha@lab.morganstanley.com",
-                "state": "active",
-                "registrationDate": "2019-10-17T10:22:39.013Z",
-                "identities": [
-                    {
-                        "provider": "Azure",
-                        "id": "vcha@lab.morganstanley.com"
-                    }
-                ]
-            }
-        },{
             "type": "Microsoft.ApiManagement/service/subscriptions",
             "apiVersion": "2019-01-01",
             "name": "[concat(parameters('apiManagementServiceName'), '/5da840efed98d20089070001')]",

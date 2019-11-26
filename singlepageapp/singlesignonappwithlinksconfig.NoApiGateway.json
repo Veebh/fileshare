@@ -22,11 +22,11 @@
       "appServiceName0":"MicroServiceTestServicesTemplate",
       "appServiceName1":"StudentDataTestApiTemplate",
       "appServiceName2":"StudentCourseAppTemplate",
-      "app_insights_name0":"3b427902-4939-4688-872b-10b35a29741e",
-      "app_insights_name1":"3b66ca8f-8819-46b3-ad66-643b2bf904b2",
-      "app_insights_name2":"f05e16ce-c289-41ea-b8c8-f1ce21fe6f63",
-      "clientId0":"244e753a-d9c1-4e48-a9c2-9b452b6a9e16",
-      "clientId1":"142b3a7f-7972-4097-abe0-0303cfe64fc2",
+      "app_insights_name0":"MicroServiceTestServicesAppInsightsTemplate",
+      "app_insights_name1":"StudentDataTestApiAppInsightsTemplate",
+      "app_insights_name2":"StudentCourseAppAppInsightsTemplate",
+      "clientId0":"f54561b1-8162-4abe-b735-42f87109b121",
+      "clientId1":"142b3a7f-7972-4097-abe0-0303cfe64fc2",//todo
       "location":"[resourceGroup().location]",
        "keyVaultName": "demoappkvtemplate",
        "serverfarms_name" :"serverfarmsthroughtemplate",
@@ -293,18 +293,41 @@
         },
         {
           "apiVersion": "2018-02-01",
-          "name": "[concat(variables(concat('appServiceName',copyIndex())), '/appsettings')]",
+          "name": "[concat(variables('appServiceName0'), '/appsettings')]",
           "type": "Microsoft.Web/sites/config",
           "dependsOn": [
             // "[resourceId('Microsoft.Web/Sites', variables('appServiceName'))]"
           ],
           "properties": {
-            "APPINSIGHTS_INSTRUMENTATIONKEY": "[variables(concat('app_insights_name',copyIndex()))]"
-          },
-            "copy":{
-                "name":"storageCopy",
-                "count":3
-            }
+            "APPINSIGHTS_INSTRUMENTATIONKEY":"[reference(resourceId('microsoft.insights/components/', variables('app_insights_name0')), '2015-05-01').InstrumentationKey]" ,//"[variables('app_insights_name0')]",
+            //  "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+			// 		  "value": "[reference(resourceId('microsoft.insights/components/', parameters('appInsightsName')), '2015-05-01').InstrumentationKey]"
+            "AZUREAPPCONFIGURATIONKEY": "Endpoint=https://dotnetcoreserviceconfigtemplate.azconfig.io;Id=PfTE-l0-s0:Co5EgUXu90vylrADIFNi;Secret=KPgC8/B1hSCenvUdKrUIhl2IwZnbwea0Odh+nim/Els=",//todo
+            "KEYVAULT_ENDPOINT":"https://demoappkvtemplate.vault.azure.net/"//todo
+          }            
+        },
+        {
+          "apiVersion": "2018-02-01",
+          "name": "[concat(variables('appServiceName1'), '/appsettings')]",
+          "type": "Microsoft.Web/sites/config",
+          "dependsOn": [
+            // "[resourceId('Microsoft.Web/Sites', variables('appServiceName'))]"
+          ],
+          "properties": {
+            "APPINSIGHTS_INSTRUMENTATIONKEY":"[reference(resourceId('microsoft.insights/components/', variables('app_insights_name1')), '2015-05-01').InstrumentationKey]" 
+          }            
+        },
+        {
+          "apiVersion": "2018-02-01",
+          "name": "[concat(variables('appServiceName2'), '/appsettings')]",
+          "type": "Microsoft.Web/sites/config",
+          "dependsOn": [
+            // "[resourceId('Microsoft.Web/Sites', variables('appServiceName'))]"
+          ],
+          "properties": {
+                       "APPINSIGHTS_INSTRUMENTATIONKEY":"[reference(resourceId('microsoft.insights/components/', variables('app_insights_name2')), '2015-05-01').InstrumentationKey]" 
+
+          }            
         },
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
